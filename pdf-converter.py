@@ -160,7 +160,7 @@ def main():
     except TypeError:
         Exception("Libreoffice not found! Install Libreoffice (64bit)")
 
-    all_files = [Path(p,f) for p, d, files in conv_path.walk() for f in files if Path(f).suffix in extensions]
+    all_files = [Path(p,f).resolve() for p, d, files in os.walk(str(conv_path)) for f in files if Path(f).suffix in extensions]
     print(f"converting {len(all_files)} files")
 
     num_threads = min(int(len(all_files) / 25), max_threads)
