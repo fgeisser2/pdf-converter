@@ -85,7 +85,7 @@ def main():
     conv_path: Path = args.path.expanduser()
     logfile: Path = args.logfile.expanduser()
     logging.basicConfig(filename=logfile, level=logging.INFO)
-    extensions = [f".{e}" for e in args.extensions.split(",")]
+    extensions = [f".{e}".lower() for e in args.extensions.split(",")]
 
     try:
         if not EXECUTABLE.is_file():
@@ -93,7 +93,7 @@ def main():
     except TypeError:
         Exception("Libreoffice not found! Install Libreoffice (64bit)")
 
-    all_files = [Path(p,f).resolve() for p, d, files in os.walk(str(conv_path)) for f in files if Path(f).suffix in extensions]
+    all_files = [Path(p,f).resolve() for p, d, files in os.walk(str(conv_path)) for f in files if Path(f).suffix.lower() in extensions]
     print(f"converting {len(all_files)} files")
 
     num_threads = min(int(len(all_files) / 25), max_threads)
